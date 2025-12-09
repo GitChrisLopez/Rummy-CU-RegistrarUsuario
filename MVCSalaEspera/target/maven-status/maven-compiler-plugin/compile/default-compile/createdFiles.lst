@@ -1,0 +1,8 @@
+control\ControlSalaDeEspera.class
+vista\VistaSalaEspera$2.class
+modelo\IModeloSalaDeEspera.class
+vista\VistaSalaEspera.class
+tipoEventos\EventoSalaEspera.class
+vista\VistaSalaEspera$1.class
+modelo\ModeloSalaDeEspera.class
+vista\ObservadorSalaDeEspera.class

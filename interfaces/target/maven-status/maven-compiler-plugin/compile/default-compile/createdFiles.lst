@@ -1,0 +1,17 @@
+contratos\iProcesador.class
+contratos\iDirectorio$ClienteInfoDatos.class
+contratos\iListener.class
+contratos\controladoresMVC\iControlRegistro.class
+contratos\iEnsambladorCliente.class
+contratos\iEnsambladorServidor.class
+contratos\controladoresMVC\iControlEjercerTurno.class
+contratos\iAgentePartida.class
+contratos\iControladorBlackboard.class
+contratos\controladoresMVC\iControlSalaEspera.class
+contratos\iNavegacion.class
+contratos\iPizarraJuego.class
+contratos\iDirectorio.class
+contratos\controladoresMVC\iControlConfig.class
+contratos\iDespachador.class
+contratos\controladoresMVC\iControlCUPrincipal.class
+contratos\iObservador.class

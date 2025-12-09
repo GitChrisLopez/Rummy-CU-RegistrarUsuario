@@ -1,0 +1,7 @@
+Entidades\Jugador.class
+Entidades\Grupo.class
+Entidades\Tablero.class
+Fachada\JuegoRummyFachada.class
+Entidades\Mano.class
+Fachada\IJuegoRummy.class
+Entidades\Ficha.class

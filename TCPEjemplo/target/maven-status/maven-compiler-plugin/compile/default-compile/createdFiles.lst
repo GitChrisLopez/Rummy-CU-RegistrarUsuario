@@ -1,0 +1,7 @@
+sockets\ClienteTCP.class
+com\mycompany\tcpejemplo\DespachadorAsincrono.class
+utils\MensajeEncolado.class
+sockets\ServerTCP.class
+procesadores\ProcesadorCliente.class
+procesadores\ProcesadorServidor.class
+utils\PeticionCliente.class
