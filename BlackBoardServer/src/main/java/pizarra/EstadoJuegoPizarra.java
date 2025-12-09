@@ -279,7 +279,9 @@ public class EstadoJuegoPizarra implements iPizarraJuego {
                     configurarPartida(idCliente, payload);
                     break;
 
-                case "ACTUALIZAR_PERFIL": //
+                case "ACTUALIZAR_PERFIL":
+                    System.out.println("[DEBUG PIZARRA] ¡Llegó mensaje ACTUALIZAR_PERFIL de " + idCliente + "!");
+                    System.out.println("[DEBUG PIZARRA] Payload recibido: " + payload);
                     System.out.println("[Pizarra] Verificando perfil de " + idCliente);
 
                     // El payload llega como: "Nombre$Avatar$Color..."
@@ -298,6 +300,15 @@ public class EstadoJuegoPizarra implements iPizarraJuego {
                         if (nombreExistente.equalsIgnoreCase(nuevoNombre)) {
                             nombreOcupado = true;
                             break;
+                        }
+
+                        if (nombreOcupado) {
+                            System.out.println("[DEBUG PIZARRA] Nombre ocupado, notificando error.");
+                            notificarObservadores("NOMBRE_REPETIDO:" + idCliente);
+                        } else {
+                            perfilesJugadores.put(idCliente, payload);
+                            System.out.println("[DEBUG PIZARRA] Todo bien, notificando REGISTRO_EXITOSO.");
+                            notificarObservadores("REGISTRO_EXITOSO:" + idCliente);
                         }
                     }
 

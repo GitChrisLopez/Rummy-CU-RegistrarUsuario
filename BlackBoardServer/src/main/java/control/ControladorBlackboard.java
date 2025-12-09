@@ -73,6 +73,11 @@ public class ControladorBlackboard implements iControladorBlackboard, iObservado
 
             case "REGISTRO_EXITOSO":
                 System.out.println("[Controlador] Confirmando registro a " + idAfectado);
+
+                if (idAfectado == null || idAfectado.isEmpty()) {
+                    System.err.println("[ERROR] ID Afectado es nulo en REGISTRO_EXITOSO");
+                    break;
+                }
                 enviarMensajeDirecto(idAfectado, "REGISTRO_EXITOSO");
                 String listaActualizada = ((EstadoJuegoPizarra) pizarra).getMetadatosJugadores();
                 enviarATodos("ACTUALIZAR_SALA:" + listaActualizada);
@@ -107,7 +112,7 @@ public class ControladorBlackboard implements iControladorBlackboard, iObservado
                 enviarMensajeDirecto(id, confirmacion);
 
                 String listaJugadores = ((EstadoJuegoPizarra) pizarra).getMetadatosJugadores();
-                
+
                 // Protocolo: "ACTUALIZAR_SALA:Jugador1,Avatar1;Jugador2,Avatar2"
                 enviarATodos("ACTUALIZAR_SALA:" + listaJugadores);
 
@@ -204,6 +209,15 @@ public class ControladorBlackboard implements iControladorBlackboard, iObservado
                 }
 
                 pizarra.avanzarTurno();
+                break;
+
+            case "ACTUALIZAR_PERFIL":
+                System.out.println("[Controlador] Perfil recibido para: " + idAfectado);
+
+                enviarMensajeDirecto(idAfectado, "REGISTRO_EXITOSO");
+
+                String listaJugadoresActualizada = ((EstadoJuegoPizarra) pizarra).getMetadatosJugadores();
+                enviarATodos("ACTUALIZAR_SALA:" + listaJugadoresActualizada);
                 break;
 
             case "PERMISO_CREAR":
