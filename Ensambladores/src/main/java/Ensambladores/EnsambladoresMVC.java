@@ -80,6 +80,7 @@ public class EnsambladoresMVC {
         modeloPrincipal.setIdCliente(idCliente);
 
         ControlCUPrincipal controlPrincipal = new ControlCUPrincipal(modeloPrincipal);
+        
         VistaLobby vistaLobby = new VistaLobby(controlPrincipal);
 
         modeloPrincipal.añadirObservador(vistaLobby);

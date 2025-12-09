@@ -280,46 +280,40 @@ public class EstadoJuegoPizarra implements iPizarraJuego {
                     break;
 
                 case "ACTUALIZAR_PERFIL":
-                    System.out.println("[DEBUG PIZARRA] ¡Llegó mensaje ACTUALIZAR_PERFIL de " + idCliente + "!");
-                    System.out.println("[DEBUG PIZARRA] Payload recibido: " + payload);
-                    System.out.println("[Pizarra] Verificando perfil de " + idCliente);
+                    System.out.println("[DEBUG PIZARRA] Procesando perfil de " + idCliente);
 
-                    // El payload llega como: "Nombre$Avatar$Color..."
+                    // Payload: "Nombre$Avatar$..."
                     String[] partesNuevas = payload.split("\\$");
                     String nuevoNombre = (partesNuevas.length > 0) ? partesNuevas[0] : "";
 
-                    boolean nombreOcupado = false;
+                    boolean nombreOcupadoPorOtro = false;
 
-                    // Recorremos los perfiles que ya tenemos guardados en el mapa 'perfilesJugadores'
-                    for (String datosExistentes : perfilesJugadores.values()) {
-                        // Extraemos el nombre de los datos existentes
-                        String[] partesExistentes = datosExistentes.split("\\$");
-                        String nombreExistente = (partesExistentes.length > 0) ? partesExistentes[0] : "";
+                    // Recorremos el mapa para ver quién tiene qué nombre
+                    // perfilesJugadores es Map<ID_JUGADOR, PAYLOAD>
+                    for (Map.Entry<String, String> entry : perfilesJugadores.entrySet()) {
+                        String idExistente = entry.getKey();
+                        String payloadExistente = entry.getValue();
 
-                        // Comparamos (ignorando mayúsculas/minúsculas)
+                        // Extraemos el nombre del payload guardado
+                        String[] partesViejas = payloadExistente.split("\\$");
+                        String nombreExistente = (partesViejas.length > 0) ? partesViejas[0] : "";
+
                         if (nombreExistente.equalsIgnoreCase(nuevoNombre)) {
-                            nombreOcupado = true;
-                            break;
-                        }
-
-                        if (nombreOcupado) {
-                            System.out.println("[DEBUG PIZARRA] Nombre ocupado, notificando error.");
-                            notificarObservadores("NOMBRE_REPETIDO:" + idCliente);
-                        } else {
-                            perfilesJugadores.put(idCliente, payload);
-                            System.out.println("[DEBUG PIZARRA] Todo bien, notificando REGISTRO_EXITOSO.");
-                            notificarObservadores("REGISTRO_EXITOSO:" + idCliente);
+                            if (!idExistente.equals(idCliente)) {
+                                nombreOcupadoPorOtro = true;
+                                break;
+                            } else {
+                                System.out.println("[Pizarra] El usuario " + idCliente + " reenvió su registro. Confirmando nuevamente.");
+                            }
                         }
                     }
 
-                    if (nombreOcupado) {
-                        System.out.println("[Pizarra] Error: El nombre '" + nuevoNombre + "' ya está en uso.");
-                        // El formato del evento será: "NOMBRE_REPETIDO:ID_DEL_CLIENTE"
+                    if (nombreOcupadoPorOtro) {
+                        System.out.println("[Pizarra] Error: El nombre '" + nuevoNombre + "' ya está usado por OTRO jugador.");
                         notificarObservadores("NOMBRE_REPETIDO:" + idCliente);
                     } else {
-                        // Si está libre, procedemos normal
                         perfilesJugadores.put(idCliente, payload);
-                        System.out.println("[Pizarra] Registro exitoso para " + nuevoNombre);
+                        System.out.println("[Pizarra] Registro exitoso/actualizado para " + nuevoNombre);
                         notificarObservadores("REGISTRO_EXITOSO:" + idCliente);
                     }
                     break;

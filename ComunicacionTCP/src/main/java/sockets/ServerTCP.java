@@ -62,6 +62,8 @@ public class ServerTCP implements iListener {
                 DataInputStream in = new DataInputStream(socketCliente.getInputStream());
                 String msgRecibido = in.readUTF();
 
+                System.out.println("[DEBUG CLIENTE] RAW RECIBIDO: " + msgRecibido);
+                
                 colaDeEntrada.put(new PeticionCliente(socketCliente, msgRecibido));
 
             } catch (IOException e) {
@@ -90,12 +92,15 @@ public class ServerTCP implements iListener {
                 System.out.println("[ServidorTCP] Procesando <- " + peticion.mensajeRecibido + " de **" + peticion.ipCliente + "**");
 
                 this.procesador.procesar(peticion.ipCliente, peticion.mensajeRecibido);
+                
+                System.out.println("[ServidorTCP] FIN Procesamiento de: " + peticion.mensajeRecibido);
 
             } catch (InterruptedException e) {
                 ejecutando = false;
                 Thread.currentThread().interrupt();
             } catch (Exception e) {
                 System.err.println("[ServidorTCP] Error al procesar petición: " + e.getMessage());
+                e.printStackTrace();
             } finally {
                 if (peticion != null && peticion.socketCliente != null) {
                     try {
